@@ -6,7 +6,7 @@ import Background from "../assets/background.jpg";
 const Sidebar = () => {
   const recentItem = (topic) => {
     return (
-      <div className="flex hover:bg-[whitesmoke] hover:cursor-pointer hover:rounded-lg hover:text-black p-1">
+      <div className="flex hover:bg-[whitesmoke] hover:cursor-pointer hover:rounded-lg hover:text-black p-1 ">
         <span className="font-light text-gray-500 text-sm cursor-pointer hover:text-black hover:font-normal">
           #
         </span>

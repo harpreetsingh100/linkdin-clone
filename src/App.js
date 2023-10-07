@@ -5,12 +5,12 @@ import Widgets from "./components/Widgets";
 
 function App() {
   return (
-    <div className="bg-[#f3f2ef] flex flex-col items-center h-screen">
+    <div className="bg-[#f3f2ef] flex flex-col items-center h-screen w-screen border-4 border-red-700">
       <Header />
-      <div className="flex w-screen">
+      <div className="flex mx-auto w-screen border-2 border-green-600">
         <Sidebar />
         <Feed />
-        {/* <Widgets /> */}
+        <Widgets />
       </div>
     </div>
   );

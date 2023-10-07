@@ -11,14 +11,14 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 
 const Header = () => {
   return (
-    <div className="sticky top-0 z-50 flex items-center w-screen justify-evenly border-b-2 py-3">
+    <div className="sticky top-0 z-50 flex items-center w-screen justify-evenly border-b-2 py-3 bg-white">
       <div className="flex justify-between items-center">
         <img src={Logo} alt="logo" className="mr-2" />
         <div className="p-2 flex items-centers rounded-lg h-10 text-gray-500 bg-[#eef3f8]">
           <SearchIcon className="cursor-pointer" />
           <input
             type="text"
-            className="border-none outline-none bg-[#eef3f8]"
+            className="border-none outline-none bg-[#eef3f8] px-2 "
           />
         </div>
       </div>
