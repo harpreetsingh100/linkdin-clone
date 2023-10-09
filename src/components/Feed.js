@@ -7,52 +7,51 @@ import FeedIcon from "@mui/icons-material/Feed";
 import Post from "./Post";
 import { db } from "../firebase/firebase";
 import {
-  getDocs,
   collection,
-  addDoc,
   serverTimestamp,
-  orderBy,
   query,
+  onSnapshot,
+  orderBy,
+  addDoc,
 } from "firebase/firestore";
-// import firebase from "firebase";
 
 const Feed = () => {
   const [input, setInput] = useState("");
   const [posts, setPosts] = useState([]);
-  const postsCollection = collection(db, "posts");
 
   const sendPost = async (e) => {
     e.preventDefault();
-    await addDoc(postsCollection, {
-      description: "harpreet@gmail.com",
-      message: input,
+    // Add a new document with a generated id.
+    const newPost = await addDoc(collection(db, "posts"), {
       name: "Harpreet",
+      message: input,
       timestamp: serverTimestamp(),
     });
+    setPosts(newPost);
   };
 
   useEffect(() => {
-    const getPostList = async () => {
-      const data = await getDocs(postsCollection);
-      const filteredData = data.docs.map((doc) => ({
-        ...doc.data(),
-        id: doc.id,
-      }));
+    // const q = query(citiesRef, orderBy("name", "desc"), limit(3));
+    const q = query(collection(db, "posts"), orderBy("timestamp", "desc"));
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      let postsArr = [];
+      querySnapshot.forEach((doc) => {
+        postsArr.push({ ...doc.data(), id: doc.id });
+      });
+      setPosts(postsArr);
+    });
 
-      const q = query(postsCollection, orderBy("timestamp", "desc"));
-      console.log(q);
-      setPosts(filteredData);
+    return () => {
+      unsubscribe();
     };
-
-    getPostList();
-  }, [posts]);
+  }, []);
 
   return (
     <div className="flex-[0.6] mx-2 border-2 rounded-xl w-full mt-2">
       <div className="bg-white p-3 pb-6 mb-1 w-full rounded-lg">
         <div className="flex rounded-xl p-3 border-2 w-full text-gray-500">
           <EditIcon />
-          <form className="flex w-full">
+          <form className="flex w-full" onSubmit={sendPost}>
             <input
               type="text"
               className="mx-3 w-[200px] flex-1 outline-none rouned-lg px-1"
@@ -60,9 +59,9 @@ const Feed = () => {
               value={input}
               onChange={(e) => setInput(e.target.value)}
             />
-            <button type="submit" onClick={sendPost} className="hidden">
+            {/* <button type="submit" onClick={sendPost} className="hidden">
               Send
-            </button>
+            </button> */}
           </form>
         </div>
         <div className="flex justify-evenly">
@@ -73,9 +72,10 @@ const Feed = () => {
       </div>
 
       {/* posts */}
-      {posts.map((post) => {
-        return <Post {...post} />;
-      })}
+      {posts &&
+        posts.map((post) => {
+          return <Post {...post} />;
+        })}
     </div>
   );
 };
