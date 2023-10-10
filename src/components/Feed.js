@@ -17,21 +17,21 @@ import {
 
 const Feed = () => {
   const [input, setInput] = useState("");
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState(null);
 
   const sendPost = async (e) => {
     e.preventDefault();
-    // Add a new document with a generated id.
     const newPost = await addDoc(collection(db, "posts"), {
       name: "Harpreet",
       message: input,
       timestamp: serverTimestamp(),
     });
-    setPosts(newPost);
+    setPosts((prev) => {
+      return [...prev, newPost];
+    });
   };
 
   useEffect(() => {
-    // const q = query(citiesRef, orderBy("name", "desc"), limit(3));
     const q = query(collection(db, "posts"), orderBy("timestamp", "desc"));
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       let postsArr = [];
@@ -47,7 +47,7 @@ const Feed = () => {
   }, []);
 
   return (
-    <div className="flex-[0.6] mx-2 border-2 rounded-xl w-full mt-2">
+    <div className="flex-[0.7] mx-2 border-2 rounded-xl w-full mt-2">
       <div className="bg-white p-3 pb-6 mb-1 w-full rounded-lg">
         <div className="flex rounded-xl p-3 border-2 w-full text-gray-500">
           <EditIcon />
@@ -72,10 +72,12 @@ const Feed = () => {
       </div>
 
       {/* posts */}
-      {posts &&
-        posts.map((post) => {
-          return <Post {...post} />;
-        })}
+      <div>
+        {posts &&
+          posts.map((post) => {
+            return <Post {...post} key={post.id} />;
+          })}
+      </div>
     </div>
   );
 };

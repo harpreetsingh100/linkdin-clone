@@ -2,8 +2,12 @@ import { Avatar } from "@mui/material";
 import React from "react";
 import User from "../assets/user.png";
 import Background from "../assets/background.jpg";
+import { useSelector } from "react-redux";
 
 const Sidebar = () => {
+  const user = useSelector((store) => store.user.user);
+  console.log(user);
+
   const recentItem = (topic) => {
     return (
       <div className="flex hover:bg-[whitesmoke] hover:cursor-pointer hover:rounded-lg hover:text-black p-1 ">
@@ -18,8 +22,8 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="flex flex-col">
-      <div className="sticky top-[80px] flex-[0.2] rounded-xl text-center h-[fit-content] border-2  pb-3  bg-white mb-2">
+    <div className="flex flex-col sticky top-[80px] flex-[0.1] ">
+      <div className="rounded-xl text-center h-[fit-content] border-2  pb-3  bg-white mb-2">
         <div className="mb-2">
           <img
             src={Background}
@@ -27,20 +31,22 @@ const Sidebar = () => {
             className=" mb-[-20px] w-full h-20 object-cover rounded-t-xl"
           />
           <div className="text-center inline-block">
-            <Avatar className="sidebar-icon mb-3" src={User} />
+            <Avatar className="sidebar-icon mb-3" src={User}>
+              {/* {user.email[0].toUpperCase()} */}
+            </Avatar>
           </div>
-          <h2 className="px-3 font-bold">Harpreet Singh</h2>
-          <h4 className="px-3 text-sm">harpreetsingh@gmail.com</h4>
+          <h2 className="px-3 font-bold">{user && user.displayName}</h2>
+          <h4 className="px-3 text-sm">{user && user.email}</h4>
         </div>
         <hr />
 
         <div className="mt-3 flex justify-between px-3">
           <p className="text-sm">Who viewd you</p>
-          <p className="font-bold text-sm">2,568</p>
+          <p className="font-bold text-sm">568</p>
         </div>
         <div className="mt-3 flex justify-between px-3">
           <p className="text-sm">Views on post</p>
-          <p className="font-bold text-sm">2,225</p>
+          <p className="font-bold text-sm">440</p>
         </div>
       </div>
       <div className="mt-1 p-3 border-2 bg-white rounded-xl  ">

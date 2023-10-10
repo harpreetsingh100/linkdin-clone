@@ -8,8 +8,18 @@ import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
 import BusinessCenterIcon from "@mui/icons-material/BusinessCenter";
 import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 import NotificationsIcon from "@mui/icons-material/Notifications";
+import { useDispatch } from "react-redux";
+import { logOut } from "../redux/userSlice";
+import { getAuth, signOut } from "firebase/auth";
 
 const Header = () => {
+  const dispatch = useDispatch();
+  const auth = getAuth();
+
+  const logoutOfApp = () => {
+    dispatch(logOut());
+    signOut(auth);
+  };
   return (
     <div className="sticky top-0 z-50 flex items-center w-screen justify-evenly border-b-2 py-3 bg-white">
       <div className="flex justify-between items-center">
@@ -28,7 +38,7 @@ const Header = () => {
         <HeaderOptions title="Jobs" Icon={BusinessCenterIcon} />
         <HeaderOptions title="Messaging" Icon={ChatBubbleIcon} />
         <HeaderOptions title="Notifications" Icon={NotificationsIcon} />
-        <HeaderOptions avatar={User} title="Harpreet" />
+        <HeaderOptions avatar={User} title="Log Out" onClick={logoutOfApp} />
       </div>
     </div>
   );
