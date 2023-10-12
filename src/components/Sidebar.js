@@ -1,12 +1,12 @@
 import { Avatar } from "@mui/material";
 import React from "react";
-import User from "../assets/user.png";
 import Background from "../assets/background.jpg";
-import { useSelector } from "react-redux";
+
+import { getAuth } from "firebase/auth";
 
 const Sidebar = () => {
-  const user = useSelector((store) => store.user.user);
-  console.log(user);
+  const auth = getAuth();
+  const user = auth.currentUser;
 
   const recentItem = (topic) => {
     return (
@@ -22,8 +22,8 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="flex flex-col sticky top-[80px] flex-[0.1] ">
-      <div className="rounded-xl text-center h-[fit-content] border-2  pb-3  bg-white mb-2">
+    <div className="flex flex-col sticky top-[0px] flex-[0.2] ">
+      <div className="rounded-xl text-center h-[fit-content] border-2 pb-3bg-white mb-2 sticky top-[70px]">
         <div className="mb-2">
           <img
             src={Background}
@@ -31,8 +31,8 @@ const Sidebar = () => {
             className=" mb-[-20px] w-full h-20 object-cover rounded-t-xl"
           />
           <div className="text-center inline-block">
-            <Avatar className="sidebar-icon mb-3" src={User}>
-              {/* {user.email[0].toUpperCase()} */}
+            <Avatar className="sidebar-icon mb-3" src={user.photoURL}>
+              {user.email[0].toUpperCase()}
             </Avatar>
           </div>
           <h2 className="px-3 font-bold">{user && user.displayName}</h2>

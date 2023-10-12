@@ -1,7 +1,6 @@
 import React from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import Logo from "../assets/logo.png";
-import User from "../assets/user.png";
 import HeaderOptions from "./HeaderOptions";
 import HomeIcon from "@mui/icons-material/Home";
 import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
@@ -15,6 +14,7 @@ import { getAuth, signOut } from "firebase/auth";
 const Header = () => {
   const dispatch = useDispatch();
   const auth = getAuth();
+  const user = auth.currentUser;
 
   const logoutOfApp = () => {
     dispatch(logOut());
@@ -38,7 +38,11 @@ const Header = () => {
         <HeaderOptions title="Jobs" Icon={BusinessCenterIcon} />
         <HeaderOptions title="Messaging" Icon={ChatBubbleIcon} />
         <HeaderOptions title="Notifications" Icon={NotificationsIcon} />
-        <HeaderOptions avatar={User} title="Log Out" onClick={logoutOfApp} />
+        <HeaderOptions
+          avatar={user.photoURL}
+          title="Log Out"
+          onClick={logoutOfApp}
+        />
       </div>
     </div>
   );

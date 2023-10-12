@@ -37,9 +37,9 @@ function App() {
   return !user ? (
     <Login />
   ) : (
-    <div className="bg-[#f3f2ef] flex flex-col items-center h-screen w-screen border-4 border-red-700 overflow-y-scroll">
+    <div className="bg-[#f3f2ef] flex flex-col items-center h-auto w-screen border-4 border-red-700 ">
       <Header />
-      <div className="flex mx-auto w-screen border-2 border-green-600">
+      <div className="flex mx-auto w-screen border-2 border-green-600 max-w-[1200px] mt-4">
         <Sidebar />
         <Feed />
         <Widgets />

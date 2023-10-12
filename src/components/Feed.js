@@ -14,17 +14,23 @@ import {
   orderBy,
   addDoc,
 } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
+import FlipMove from "react-flip-move";
 
 const Feed = () => {
   const [input, setInput] = useState("");
   const [posts, setPosts] = useState(null);
+  const auth = getAuth();
+  const user = auth.currentUser;
 
   const sendPost = async (e) => {
     e.preventDefault();
     const newPost = await addDoc(collection(db, "posts"), {
-      name: "Harpreet",
+      name: user.displayName,
       message: input,
+      description: user.email,
       timestamp: serverTimestamp(),
+      photoUrl: user.photoURL || "",
     });
     setPosts((prev) => {
       return [...prev, newPost];
@@ -47,7 +53,7 @@ const Feed = () => {
   }, []);
 
   return (
-    <div className="flex-[0.7] mx-2 border-2 rounded-xl w-full mt-2">
+    <div className="flex-[0.8] mx-2 border-2 rounded-xl w-full overflow-y-scroll">
       <div className="bg-white p-3 pb-6 mb-1 w-full rounded-lg">
         <div className="flex rounded-xl p-3 border-2 w-full text-gray-500">
           <EditIcon />
@@ -72,12 +78,12 @@ const Feed = () => {
       </div>
 
       {/* posts */}
-      <div>
+      <FlipMove>
         {posts &&
-          posts.map((post) => {
-            return <Post {...post} key={post.id} />;
+          posts.map((post, id) => {
+            return <Post {...post} key={id} />;
           })}
-      </div>
+      </FlipMove>
     </div>
   );
 };

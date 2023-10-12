@@ -1,9 +1,10 @@
 import { Avatar } from "@mui/material";
+import { getAuth } from "firebase/auth";
 import React from "react";
-import { useSelector } from "react-redux";
 
 const HeaderOptions = ({ title, Icon, avatar, onClick }) => {
-  const user = useSelector((store) => store.user.user);
+  const auth = getAuth();
+  const user = auth.currentUser;
 
   return (
     <div
@@ -13,7 +14,7 @@ const HeaderOptions = ({ title, Icon, avatar, onClick }) => {
       <span>
         {avatar && (
           <Avatar src={avatar} className="icons">
-            {/* {user && user.email[0]} */}
+            {user.email[0].toUpperCase()}
           </Avatar>
         )}
       </span>
